@@ -1,6 +1,7 @@
 # sam-app
 
-This is a sample template for sam-app - Below is a brief explanation of what we have generated for you:
+This is a sample project about [AWS SAM](https://aws.amazon.com/jp/serverless/sam/) on [the BASE Development Team Blog](https://devblog.thebase.in/).  
+Please visit [the BASE Development Team Blog](https://devblog.thebase.in/) for more information.
 
 ```bash
 .
@@ -29,15 +30,21 @@ Read more about [SAM Build here](https://docs.aws.amazon.com/serverless-applicat
 The `sam build` command is wrapped inside of the `Makefile`. To execute this simply run
  
 ```shell
-make
+make build
 ```
 
 ### Local development
 
+** Invoking function locally with dispatched event **
+
+```bash
+make local run
+```
+
 **Invoking function locally through local API Gateway**
 
 ```bash
-sam local start-api
+make local up
 ```
 
 If the previous command ran successfully you should now be able to hit the following local endpoint to invoke your function `http://localhost:3000/hello`
@@ -70,7 +77,7 @@ AWS Lambda Golang runtime requires a flat folder with the executable generated o
 To deploy your application for the first time, run the following in your shell:
 
 ```bash
-sam deploy --guided
+make deploy dev
 ```
 
 The command will package and deploy your application to AWS, with a series of prompts:
@@ -88,7 +95,7 @@ You can find your API Gateway Endpoint URL in the output values displayed after 
 We use `testing` package that is built-in in Golang and you can simply run the following command to run our tests:
 
 ```shell
-go test -v ./hello-world/
+make test
 ```
 # Appendix
 
