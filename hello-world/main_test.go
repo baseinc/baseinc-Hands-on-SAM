@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestHandler(t *testing.T) {
@@ -56,9 +58,22 @@ func TestHandler(t *testing.T) {
 
 		DefaultHTTPGetAddress = ts.URL
 
-		_, err := handler(events.APIGatewayProxyRequest{})
+		os.Setenv("APP_NAME", "Hello")
+		os.Setenv("ENV", "dev")
+
+		want := events.APIGatewayProxyResponse{
+			Body:       "Hello@dev",
+			StatusCode: 200,
+		}
+
+		response, err := handler(events.APIGatewayProxyRequest{})
+
 		if err != nil {
 			t.Fatal("Everything should be ok")
 		}
+		if diff := cmp.Diff(want, response); diff != "" {
+			t.Errorf("api response got differs: (-want +got)\n%s", diff)
+		}
+
 	})
 }
